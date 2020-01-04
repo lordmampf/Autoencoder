@@ -1,12 +1,9 @@
 import torch.nn as nn
-import torch.nn.functional as F
 import torch
 import torchvision.transforms as transforms
 from torchvision import datasets
 import matplotlib.pyplot as plt
 import numpy as np
-import os.path
-from os import path
 
 
 PATH = './sim_autoencoder.pth'
@@ -66,9 +63,9 @@ model = Autoencoder(encoding_dim)
 print(model)
 
 
-if path.exists(PATH):
-    model.load_state_dict(torch.load(PATH))
-    model.eval()
+#if path.exists(PATH):
+#    model.load_state_dict(torch.load(PATH))
+#    model.eval()
 
 model = model.to("cuda")
 
@@ -160,9 +157,10 @@ for epochLoops in range(0, n_epochloops):
     
     
     torch.save(model.state_dict(), PATH)
-    
-    
-print("done!")
+
+
 lossfile.close()
+print("done!")
+
 
 
