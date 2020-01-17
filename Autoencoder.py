@@ -1,3 +1,10 @@
+#
+#  This script uses the MNIST Handwritten Digit Dataset and an Autoencoder
+#  to recreate the given input image with "encoding_dim" neurons between encoder and decoder
+#  It needs a cuda supported environment
+#  If you want to use this script in google colab select Runtime GPU paste this script and press run ;)
+#
+
 import torch.nn as nn
 import torch
 import torchvision.transforms as transforms
@@ -23,8 +30,8 @@ test_data = datasets.MNIST(root='data', train=False,
 # how many samples per batch to load
 batch_size = 32
 
-#hidden layer
-encoding_dim = 1
+#Amount of neurons in middle hidden layer
+encoding_dim = 3
 
 # prepare data loaders
 train_loader = torch.utils.data.DataLoader(train_data, batch_size=batch_size, num_workers=0, pin_memory=True, shuffle=True)
@@ -77,10 +84,10 @@ optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
 
 lossfile = open("loss.txt","w+")
 
-n_epochloops = 50;
+n_epochloops = 2;
 
 for epochLoops in range(0, n_epochloops):
-    n_epochs = 10
+    n_epochs = 5
     
     for epoch in range(1, n_epochs+1):
         # monitor training loss
@@ -103,7 +110,7 @@ for epochLoops in range(0, n_epochloops):
             
             # forward pass: compute predicted outputs by passing inputs to the model
             outputs = model(images)
-                        
+            
             # calculate the loss
             loss = criterion(outputs, images)
             
@@ -115,7 +122,7 @@ for epochLoops in range(0, n_epochloops):
         
             # update running training loss
             train_loss += loss.item()*images.size(0)
-                
+            
         # print avg training statistics 
         train_loss = train_loss/len(train_loader)
         
